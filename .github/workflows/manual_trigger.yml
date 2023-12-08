@@ -1,0 +1,30 @@
+name: Hashtag Stats Generator
+
+on:
+  workflow_dispatch:
+    inputs:
+      hashtag:
+        description: 'Hashtag to generate stats for'
+        required: true
+      days:
+        description: "No of last days to extract stats of"
+        required: true
+        default: 7
+      
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup python 3.7
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+      - name: Install Dependencies
+        run: pip install osmsg
+
+
+      - name: Execute Command
+        run: |
+          osmsg --format csv image --tags 'building' 'highway' 'waterway' 'amenity' --name stats --all_tags --hashtags ${{ github.event.inputs.hashtag }} --days ${{ github.event.inputs.days }}
