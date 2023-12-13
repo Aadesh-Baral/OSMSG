@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install Dependencies
-        run: pip install osmsg
+        run: pip install -r requirements.txt && pip install osmsg
 
 
       - name: Execute Command
